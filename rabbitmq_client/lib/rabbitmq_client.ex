@@ -2,16 +2,31 @@
 defmodule RabbitMQClient do
   use AMQP
 
-  # Start a connection
+  # Start a connection and open a channel
   # Params:
   #   - url_conn: String
   # This function will:
   #   - Open a connection
   #   - Open a channel
   def start_link(url_conn) do
-    {:ok, connection} = Connection.open(url_conn)
-    {:ok, channel} = Channel.open(connection)
-    {:ok, %{connection: connection, channel: channel}}
+    case Connection.open(url_conn) do
+      {:ok, connection} ->
+        case Channel.open(connection) do
+          {:ok, channel} -> {:ok, %{connection: connection, channel: channel}}
+          {:error, reason} -> {:error, reason}
+        end
+      {:error, reason} -> {:error, reason}
+    end
+  end
+
+  # Declare a queue (just to debbug or test)
+  # Params:
+  #   - channel: AMQP.Channel.t()
+  #   - queue_name: String
+  # This function will:
+  #   - Declare a queue with the given name
+  def declare_queue(channel, queue_name) do
+    Queue.declare(channel, queue_name, durable: true)
   end
 
   # Send a message to a queue
