@@ -1,25 +1,7 @@
-import gleam/http.{Get, Post, Patch, Put}
-import gleam/http/request.{type Request}
 import gleam/json.{type Json, object, string, to_string}
 import gleam/bytes_builder.{type BytesBuilder, from_string}
 import gleam/http/response.{type Response, new, set_body, prepend_header}
 
-
-pub fn handle_ping(request: Request(t)) -> Response(BytesBuilder) {
-  case request.method {
-    Get -> {
-      let json_object = object([
-        #("message", string("ping"))
-      ])
-      handle_json_response(json_object)
-    }
-
-    Post -> handle_method_not_allowed()
-    Patch -> handle_method_not_allowed()
-    Put -> handle_method_not_allowed()
-    _ -> handle_method_not_allowed()
-  }
-}
 
 pub fn handle_not_found() -> Response(BytesBuilder) {
   let json_object = object([
