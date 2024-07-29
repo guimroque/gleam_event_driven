@@ -38,5 +38,18 @@ pub fn handle_json_response(json_object: Json) -> Response(BytesBuilder) {
   |> prepend_header("made-with", "Gleam")
   |> set_body(body)
 }
+
+pub fn handle_json_error(error: String) -> Response(BytesBuilder) {
+  let json_object = object([
+    #("message", string("Internal server error"))
+  ])
+
+  let json_string = to_string(json_object)  
+  let body = from_string(json_string)
+
+  new(500)
+  |> set_body(body)
+  |> prepend_header("Content-Type", "application/json")
+}
 // Função de conversão identidade para JSON
 pub fn identity_to_json(x) -> Json {x}
