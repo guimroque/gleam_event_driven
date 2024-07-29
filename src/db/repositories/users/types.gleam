@@ -3,10 +3,15 @@ import gleam/dynamic.{type Dynamic}
 
 pub type User {
   User(
-    id: Int,
+    id: String,
     name: String,
     email: String,
-    age: Int
+    public_key: String,
+    status: String, // todo: move to enum
+    balance: Float,
+    currency: String, // todo: move to enum
+    created_at: String,
+    updated_at: String,
   )
 }
 
@@ -30,9 +35,12 @@ pub type DefaultUserEventRequestPayload {
   )
 }
 
-pub type SUser {
-    SUserPayload(
-        status: String
+pub type SimpleUser {
+    SimpleUserPayload(
+        name: String,
+        public_key: String,
+        status: String,
+        created_at: String,
     )
 }
 

@@ -5,10 +5,10 @@ import gleam/dynamic
 
 import wisp
 
-import infra/db/repositories/users/types.{
+import db/repositories/users/types.{
     type DefaultUserEventRequestPayload, 
     DefaultUserEventPayload,
-    SUserPayload
+    SimpleUserPayload
 }
 
 import gleam/erlang/atom.{type Atom}
@@ -97,15 +97,22 @@ pub fn parse_user_request_payload(payload: String) -> DefaultUserEventRequestPay
 
 pub fn parse_user_pending_payload(payload: String) -> Bool {
     // io.print(payload)
-    let user_decode = dynamic.decode1(
-        SUserPayload,
+    let simple_user_decode = dynamic.decode4(
+        SimpleUserPayload,
+        dynamic.field("name", of: dynamic.string),
+        dynamic.field("public_key", of: dynamic.string),
         dynamic.field("status", of: dynamic.string),
-        //dynamic.field("reason", of: dynamic.optional(dynamic.string)),
+        dynamic.field("created_at", of: dynamic.string),
     )
 
-    case json.decode(payload, user_decode) {
+    case json.decode(payload, simple_user_decode) {
         Ok(user) -> {
+            io.println("-----------------[USER]-----------------")
+            io.println(user.name)
             io.println(user.status)
+            io.println(user.public_key)
+            io.println(user.created_at)
+            io.println("-----------------[USER]-----------------")
             // io.println(user)
             True
         }
