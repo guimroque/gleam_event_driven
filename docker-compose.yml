@@ -11,14 +11,31 @@ services:
     networks:
       - rabbitmq_docker_network
     restart: always
+
   codefest:
     container_name: "codefest"
     image: leonardocbsr/codefest:latest
     depends_on:
       - rabbitmq
+      - postgres
     restart: always
     networks:
       - rabbitmq_docker_network
+
+  postgres:
+    image: postgres:latest
+    container_name: "postgres"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ~/.docker-conf/postgres/data/:/var/lib/postgresql/data
+    networks:
+      - rabbitmq_docker_network
+    restart: always
 
 networks:
   rabbitmq_docker_network:
