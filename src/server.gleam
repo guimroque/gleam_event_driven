@@ -1,3 +1,7 @@
+
+import app/routes/router
+import gleam/http/elli
+
 import gleam/io
 import gleam/http/response.{type Response}
 import gleam/http/request.{type Request}
@@ -20,9 +24,10 @@ pub fn my_service(_request: Request(t)) -> Response(BytesBuilder) {
  |> response.set_body(body)
 }
 
+
 // Start it on port 3000 using the Elli web server
-//
 pub fn main() {
+ elli.become(router.run, on_port: 3000)
     let queue = rmq_queue("")
     rmq_queue_bind(queue, "users", "")
     rmq_topic("users")

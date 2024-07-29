@@ -9,17 +9,16 @@ packages = [
   { name = "gleam_elli", version = "2.4.0", build_tools = ["gleam"], requirements = ["elli", "gleam_erlang", "gleam_http", "gleam_otp", "gleam_stdlib"], otp_app = "gleam_elli", source = "hex", outer_checksum = "433F5AF4ED92C55F3EBA8942610E974254EEF90F484AF26E3D775E33338DE832" },
   { name = "gleam_erlang", version = "0.25.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_erlang", source = "hex", outer_checksum = "054D571A7092D2A9727B3E5D183B7507DAB0DA41556EC9133606F09C15497373" },
   { name = "gleam_http", version = "3.6.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_http", source = "hex", outer_checksum = "8C07DF9DF8CC7F054C650839A51C30A7D3C26482AC241C899C1CEA86B22DBE51" },
+  { name = "gleam_json", version = "1.0.1", build_tools = ["gleam"], requirements = ["gleam_stdlib", "thoas"], otp_app = "gleam_json", source = "hex", outer_checksum = "9063D14D25406326C0255BDA0021541E797D8A7A12573D849462CAFED459F6EB" },
   { name = "gleam_otp", version = "0.10.0", build_tools = ["gleam"], requirements = ["gleam_erlang", "gleam_stdlib"], otp_app = "gleam_otp", source = "hex", outer_checksum = "0B04FE915ACECE539B317F9652CAADBBC0F000184D586AAAF2D94C100945D72B" },
   { name = "gleam_stdlib", version = "0.39.0", build_tools = ["gleam"], requirements = [], otp_app = "gleam_stdlib", source = "hex", outer_checksum = "2D7DE885A6EA7F1D5015D1698920C9BAF7241102836CE0C3837A4F160128A9C4" },
   { name = "gleeunit", version = "1.2.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleeunit", source = "hex", outer_checksum = "F7A7228925D3EE7D0813C922E062BFD6D7E9310F0BEE585D3A42F3307E3CFD13" },
-  { name = "rabbit_common", version = "3.12.14", build_tools = ["make", "rebar3"], requirements = ["credentials_obfuscation", "recon", "thoas"], otp_app = "rabbit_common", source = "hex", outer_checksum = "70C31A51F7401CC0204DDEF2745D98680C2E0DF67E3B0C9E198916881FDE3293" },
-  { name = "recon", version = "2.5.3", build_tools = ["mix", "rebar3"], requirements = [], otp_app = "recon", source = "hex", outer_checksum = "6C6683F46FD4A1DFD98404B9F78DCABC7FCD8826613A89DCB984727A8C3099D7" },
-  { name = "thoas", version = "1.0.0", build_tools = ["rebar3"], requirements = [], otp_app = "thoas", source = "hex", outer_checksum = "FC763185B932ECB32A554FB735EE03C3B6B1B31366077A2427D2A97F3BD26735" },
 ]
 
 [requirements]
 amqp = { version = "~>3.0" }
 gleam_elli = { version = ">= 2.4.0 and < 3.0.0" }
 gleam_http = { version = ">= 3.6.0 and < 4.0.0" }
+gleam_json = { version = "1.0.1" }
 gleam_stdlib = { version = ">= 0.34.0 and < 2.0.0" }
 gleeunit = { version = ">= 1.0.0 and < 2.0.0" }
