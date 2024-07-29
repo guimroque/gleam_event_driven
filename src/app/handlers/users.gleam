@@ -4,7 +4,7 @@ import app/handlers/common.{
   handle_method_not_allowed
 }
 
-import infra/db/repositories/user_repository.{get_all_users_repository}
+import infra/db/repositories/users/user_repository.{get_all_users_repository}
 
 import gleam/io
 import gleam/http.{Get, Post, Patch, Put}

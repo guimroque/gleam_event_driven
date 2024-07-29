@@ -13,25 +13,6 @@ import gleam/pgo.{
 import gleam/json.{type Json, object, array, int}
 import gleam/list.{concat}
 
-
-
-pub type User {
-  User(
-    id: Int,
-    name: String,
-    email: String,
-    age: Int
-  )
-}
-
-// Definindo o tipo para o resultado da consulta
-pub type QueryResult {
-  Record(
-    count: Int,
-    rows: List(Dynamic)
-  )
-}
-
 pub fn get_all_users_repository() -> Result(Returned(Dynamic), QueryError) {
   // Conectar ao banco de dados
   let db = connect()
