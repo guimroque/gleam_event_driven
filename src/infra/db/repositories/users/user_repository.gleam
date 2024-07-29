@@ -1,17 +1,10 @@
-import infra/db/config.{connect}
-import gleam/option.{Some}
 import gleam/io
-import gleam/result.{try, map_error}
-import gleam/dynamic.{type Dynamic, dynamic, field,tuple2}
+import infra/db/config.{connect}
+import gleam/dynamic.{type Dynamic, dynamic}
 import gleam/pgo.{
-  execute,
   type QueryError,
-  type Returned,
-  type Connection,
+  type Returned
 }
-
-import gleam/json.{type Json, object, array, int}
-import gleam/list.{concat}
 
 pub fn get_all_users_repository() -> Result(Returned(Dynamic), QueryError) {
   // Conectar ao banco de dados
@@ -24,23 +17,9 @@ pub fn get_all_users_repository() -> Result(Returned(Dynamic), QueryError) {
   // Executar a consulta
   let result = pgo.execute(sql, db, [], dynamic.dynamic)
 
-  // Log do resultado para fins de depuração
-  io.debug("result")
-  io.debug(result)
-  io.debug("result.values")
-  io.debug(result.values)
-
-
   // Manipular o resultado
    case result {
     Ok(returned) -> {
-      // Acessar e mostrar values
-      io.debug("result.count")
-      io.debug(returned.count)
-
-      io.debug("result.rows")
-      io.debug(returned.rows)
-      // Retornar os dados para visualização
       Ok(returned)
     }
     Error(err) -> Error(err)
