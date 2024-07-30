@@ -35,7 +35,9 @@ packages = [
   { name = "recon", version = "2.5.3", build_tools = ["mix", "rebar3"], requirements = [], otp_app = "recon", source = "hex", outer_checksum = "6C6683F46FD4A1DFD98404B9F78DCABC7FCD8826613A89DCB984727A8C3099D7" },
   { name = "simplifile", version = "2.0.1", build_tools = ["gleam"], requirements = ["filepath", "gleam_stdlib"], otp_app = "simplifile", source = "hex", outer_checksum = "5FFEBD0CAB39BDD343C3E1CCA6438B2848847DC170BA2386DF9D7064F34DF000" },
   { name = "thoas", version = "1.2.1", build_tools = ["rebar3"], requirements = [], otp_app = "thoas", source = "hex", outer_checksum = "E38697EDFFD6E91BD12CEA41B155115282630075C2A727E7A6B2947F5408B86A" },
+  { name = "uuid", version = "1.1.8", build_tools = ["mix"], requirements = [], otp_app = "uuid", source = "hex", outer_checksum = "C790593B4C3B601F5DC2378BAAE7EFAF5B3D73C4C6456BA85759905BE792F2AC" },
   { name = "wisp", version = "0.16.0", build_tools = ["gleam"], requirements = ["exception", "gleam_crypto", "gleam_erlang", "gleam_http", "gleam_json", "gleam_stdlib", "logging", "marceau", "mist", "simplifile"], otp_app = "wisp", source = "hex", outer_checksum = "A13DAD6A84BED78FF5D7656F3B5125086801BE1AF47427A9A759EA8C484345AB" },
+  { name = "youid", version = "1.2.0", build_tools = ["gleam"], requirements = ["gleam_crypto", "gleam_erlang", "gleam_stdlib"], otp_app = "youid", source = "hex", outer_checksum = "EF0F693004E221155EE5909C6D3C945DD14F7117DBA882887CF5F45BE399B8CA" },
 ]
 
 [requirements]
@@ -48,4 +50,6 @@ gleam_otp = { version = ">= 0.10.0 and < 1.0.0" }
 gleam_pgo = { version = ">= 0.13.0 and < 1.0.0" }
 gleam_stdlib = { version = ">= 0.34.0 and < 2.0.0" }
 gleeunit = { version = ">= 1.0.0 and < 2.0.0" }
+uuid = { version = ">= 1.1.8 and < 2.0.0" }
 wisp = { version = ">= 0.16.0 and < 1.0.0" }
+youid = { version = ">= 1.2.0 and < 2.0.0"}

@@ -4,7 +4,7 @@ import app/handlers/common.{
   handle_method_not_allowed
 }
 
-import db/repositories/users/user_repository.{get_all_users_repository}
+// import db/repositories/users/user_repository.{get_all_users_repository}
 
 import gleam/io
 import gleam/http.{Get, Post, Patch, Put}
@@ -20,9 +20,8 @@ pub fn get_users(request: Request(t)) -> Response(BytesBuilder) {
       io.debug("get_users")
       io.debug(request)
 
-      let response = get_all_users_repository()
+      //let response = get_all_users_repository()
       io.debug("response")
-      io.debug(response)
 
       let json_object = object([
         #("users", array([], identity_to_json)), // Simula lista de usuários

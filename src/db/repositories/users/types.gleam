@@ -2,7 +2,7 @@ import gleam/option.{type Option}
 import gleam/dynamic.{type Dynamic}
 
 pub type User {
-  User(
+  UserPayload(
     id: String,
     name: String,
     email: String,
@@ -11,10 +11,18 @@ pub type User {
     balance: Float,
     currency: String, // todo: move to enum
     created_at: String,
-    updated_at: String,
+    reason: Option(String),
   )
 }
 
+pub type SimpleUser {
+    SimpleUserPayload(
+        name: String,
+        public_key: String,
+        status: String,
+        created_at: String,
+    )
+}
 // Definindo o tipo para o resultado da consulta
 pub type QueryResult {
   Record(
@@ -33,15 +41,6 @@ pub type DefaultUserEventRequestPayload {
     currency: String,
     created_at: String,
   )
-}
-
-pub type SimpleUser {
-    SimpleUserPayload(
-        name: String,
-        public_key: String,
-        status: String,
-        created_at: String,
-    )
 }
 
 pub type PendingUserEventPayload {

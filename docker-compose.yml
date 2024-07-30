@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -32,7 +34,8 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ~/.docker-conf/postgres/data/:/var/lib/postgresql/data
+      - ./postgres/data:/var/lib/postgresql/data
+      - ./src/db/init/:/docker-entrypoint-initdb.d/ # Mounting the initialization scripts
     networks:
       - rabbitmq_docker_network
     restart: always

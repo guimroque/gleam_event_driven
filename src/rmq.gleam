@@ -1,14 +1,11 @@
 import gleam/io
-import gleam/json
 import gleam/string
-import gleam/dynamic
 
-import wisp
 
-import db/repositories/users/types.{
-    type DefaultUserEventRequestPayload, 
-    DefaultUserEventPayload,
-    SimpleUserPayload
+import db/repositories/users/parser.{
+    get_simple_user,
+    add_user, 
+    user_request_confirm
 }
 
 import gleam/erlang/atom.{type Atom}
@@ -32,96 +29,45 @@ pub fn rmq_queue_bind(
     routing_key routing_key: String
 ) -> Atom
 
-pub fn user_pending(user: String) -> Bool {
-    io.println("User.Pending")
-    True
-}
-
-// get user from payload
-// create user_id
-// set status to review
-// set updated_at to created_at
-// set event to User.Pending
-// send user to rmq
-pub fn user_request_confirm(user: String) -> Bool {
-    let user = parse_user_request_payload(user)
-    let user_id = wisp.random_string(20)
-    let user_status = "review"
-    let user_updated_at = user.created_at // todo: fix this
-    let user_event_type = "User.Pending"
-
-    let event = json.object([
-        #("event", json.string(user_event_type)), // set event
-        #("id", json.string(user_id)),
-        #("email", json.string(user.email)),
-        #("status", json.string("review")),
-        #("name", json.string(user.name)),
-        #("balance", json.float(user.balance)),
-        #("currency", json.string(user.currency)),
-        #("public_key", json.string(user.public_key)),
-        #("created_at", json.string(user.created_at)),
-        // new fields
-        #("id", json.string(user_id)),
-        #("status", json.string(user_status)),
-        // #("reason", json.null),
-        #("updated_at", json.string(user_updated_at)),
-        
-    ])
-    |> json.to_string
-    rmq_send(event, "users")
-
-    True
-}
-
-
-pub fn parse_user_request_payload(payload: String) -> DefaultUserEventRequestPayload {
-    let user_decode = dynamic.decode7(
-        DefaultUserEventPayload,
-        dynamic.field("event", of: dynamic.string),
-        dynamic.field("name", of: dynamic.string),
-        dynamic.field("email", of: dynamic.string),
-        dynamic.field("public_key", of: dynamic.string),
-        dynamic.field("balance", of: dynamic.float),
-        dynamic.field("currency", of: dynamic.string),
-        dynamic.field("created_at", of: dynamic.string),
-    )
-
-    case json.decode(payload, user_decode) {
-        Ok(user) -> user
-        Error(e) -> {
-            io.debug(e)
-            DefaultUserEventPayload("error", "error", "error", "error", 0.0, "error", "error")
-        }
-    }
-}
-
-pub fn parse_user_pending_payload(payload: String) -> Bool {
-    // io.print(payload)
-    let simple_user_decode = dynamic.decode4(
-        SimpleUserPayload,
-        dynamic.field("name", of: dynamic.string),
-        dynamic.field("public_key", of: dynamic.string),
-        dynamic.field("status", of: dynamic.string),
-        dynamic.field("created_at", of: dynamic.string),
-    )
-
-    case json.decode(payload, simple_user_decode) {
-        Ok(user) -> {
-            io.println("-----------------[USER]-----------------")
-            io.println(user.name)
-            io.println(user.status)
-            io.println(user.public_key)
-            io.println(user.created_at)
-            io.println("-----------------[USER]-----------------")
-            // io.println(user)
-            True
+pub fn user_pending(payload: String) -> Bool {
+    case get_simple_user(payload) {
+        Ok(user) -> case user.status {
+            "review" -> {
+                True
+            }
+            "success" -> {
+                add_user(payload)
+                True
+            }
+            "failed" -> {
+                add_user(payload)
+                True
+            }
+            _ -> False
+            
         }
         Error(e) -> {
-            //io.println("error")
             io.debug(e)
             False
         }
     }
+
+}
+
+pub fn user_request(payload: String) -> Bool {
+    let message = user_request_confirm(payload) 
+    case message {
+        "error" -> {
+            io.debug(message)
+            False
+        }
+        _ -> {
+            io.debug(message)
+            rmq_send(message, "users")
+            True
+        }
+    }
+
 }
 
 // read message from queue
@@ -137,27 +83,22 @@ pub fn parse_user_pending_payload(payload: String) -> Bool {
 //      verify payload and send to user_request_confirm
 pub fn read_message(queue: String) {
     let payload = rmq_listen(queue)
-    // let _payload = string.replace("publicKey", "public_key", payload)
-    
     case string.contains(payload, "User.Pending") {
         True -> {
-            io.println("User.Pending")
-            parse_user_pending_payload(payload)
+            user_pending(payload)
             True
         }
         False -> False
     }
     case string.contains(payload, "User.Created"){
         True -> {
-            io.println("User.Created")
             True
         }
         False -> False
     }
     case string.contains(payload, "User.Request"){
         True -> {
-            io.println("User.Request")
-            user_request_confirm(payload)
+            user_request(payload)
         }
         False -> False
     }

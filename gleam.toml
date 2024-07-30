@@ -12,6 +12,8 @@ gleam_erlang = ">= 0.25.0 and < 1.0.0"
 gleam_otp = ">= 0.10.0 and < 1.0.0"
 gleam_json = "~>1.0.1"
 wisp = ">= 0.16.0 and < 1.0.0"
+uuid = ">= 1.1.8 and < 2.0.0"
+youid = ">= 1.2.0 and < 2.0.0"
 
 
 [dev-dependencies]
