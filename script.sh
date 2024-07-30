@@ -13,7 +13,7 @@ docker-compose up -d
 # Espera o PostgreSQL iniciar
 echo "Waiting for PostgreSQL to start..."
 until docker exec -it postgres pg_isready -U postgres; do
-  sleep 1
+  sleep 10
 done
 
 echo "Prepare database..."

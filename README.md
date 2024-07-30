@@ -19,6 +19,5 @@ Further documentation can be found at <https://hexdocs.pm/server>.
 ## Development
 
 ```sh
-gleam run   # Run the project
-gleam test  # Run the tests
+sh script.sh
 ```
